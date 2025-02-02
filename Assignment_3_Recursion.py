@@ -12,13 +12,40 @@
         
 # print(maxList(L))
 
-# Run the Recursive Fibonacci function defined in the class notes with input a) 50 and b) 115
-
-def Fibo(n):
-    if n <= 1:
-        return n
+# Run the Recursive Fibonacci function defined in the class notes with input a) 50 and b) 115.
+def fibonacciSmall(n):
+    if n == 0: # base case
+        return 0 
+    elif n == 1: 
+        return 1 
     else:
-        return Fibo(n-1) + Fibo(n-2)
-    
-print(Fibo(50))
-print(Fibo(115))
+        return fibonacciSmall(n-1) + fibonacciSmall(n-2) # recursive case 
+
+print('This is fibo for the number 10: ', fibonacciSmall(10))
+print('This is fibo for the number 15: ', fibonacciSmall(15))
+
+# Run the Recursive Fibonacci function defined in the class notes with input a) 50 and b) 115.
+# memoization is used to store the values of the fibonacci sequence
+def fibonacciLarge(n, memo={}): 
+    if n in memo: # if n is already in the memo dictionary, return the value of
+        return memo[n] # the key n
+    if n == 0: # base case
+        return 0
+    elif n == 1: 
+        return 1
+    else: # recursive case using memoization to store larger values of n (much faster method for larger numbers)
+        memo[n] = fibonacciLarge(n-1, memo) + fibonacciLarge(n-2, memo)
+        return memo[n]
+
+print('This is fibo for the number 50: ', fibonacciLarge(50))
+print('This is fibo for the number 115: ', fibonacciLarge(115))
+
+# Write a recursive function to calculate the sum of the positive integers of n+(n-2)+(n-4)...
+
+def sumOfPositiveIntegers(n):
+    if n <= 0: # base case
+        return 0
+    else: # recursive case 
+        return n + sumOfPositiveIntegers(n-2)
+
+print('This is the sum of positive integers for 113: ', sumOfPositiveIntegers(113))
