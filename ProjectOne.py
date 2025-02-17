@@ -80,6 +80,9 @@ tower.printRods()  # Print the initial state of the rods
 tower.solve()  # Solve the Tower of Hanoi problem
 tower.printRods()  # Print the final state of the rods
 
+
+print("-------------------------------------------------")
+print("Simulating customers at a grocery store check-out")
 # Simulation of customers at a grocery store check-out using a queue
 import random
 
