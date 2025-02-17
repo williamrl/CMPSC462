@@ -80,15 +80,6 @@ tower.printRods()  # Print the initial state of the rods
 tower.solve()  # Solve the Tower of Hanoi problem
 tower.printRods()  # Print the final state of the rods
 
-# Choose a stack or queue or both to demonstrate the simulation for one of the following real-
-# life situation example:
-# • Table reservations in restaurants
-# • Customers at a grocery store check-out
-# • Airplanes taking off and landing on a runway
-# • Boarding flights
-# Be sure to state any assumptions that you make and provide any probabilistic data that must be
-# considered as part of the scenario.
-
 # Simulation of customers at a grocery store check-out using a queue
 import random
 
