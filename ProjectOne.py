@@ -1,63 +1,114 @@
-class Stack():
-    def __init__(self):
-        self.stack = []
+class Stack:
+    def __init__(self, name):
+        self.stack = []  # Initialize an empty list to represent the stack
+        self.name = name  # Name of the stack for identification
+    
     def push(self, item):
-        self.stack.append(item)
+        self.stack.append(item)  # Add an item to the top of the stack
+    
     def pop(self):
-        return self.stack.pop()
-    def peek(self):
-        return self.stack[-1]
-    def is_empty(self):
-        return len(self.stack) == 0
-    def size(self):
-        return len(self.stack)
+        if self.isEmpty():
+            return None  # Return None if the stack is empty
+        return self.stack.pop()  # Remove and return the top item of the stack
     
-class Queue():
+    def peek(self):
+        if self.isEmpty():
+            return None  # Return None if the stack is empty
+        return self.stack[-1]  # Return the top item of the stack without removing it
+    
+    def isEmpty(self):
+        return len(self.stack) == 0  # Check if the stack is empty
+    
+    def size(self):
+        return len(self.stack)  # Return the number of items in the stack
+
+class Queue:
     def __init__(self):
-        self.queue = []
-    def enqueue(self, item):
-        self.queue.append(item)
-    def dequeue(self):
-        return self.queue.pop(0)
-    def peek(self):
-        return self.queue[0]
-    def is_empty(self):
-        return len(self.queue) == 0
-    def size(self):
-        return len(self.queue)
+        self.queue = []  # Initialize an empty list to represent the queue
     
-# Tower of Hanoi is a simple game which is usually used to demonstrate the use of recursion in
-# algorithms. Implement the game using
-# i) recursive functions and
-# ii) iterative functions. We are going to solve the game using stacks and/or queues.
+    def enqueue(self, item):
+        self.queue.append(item)  # Add an item to the end of the queue
+    
+    def dequeue(self):
+        if self.isEmpty():
+            return None  # Return None if the queue is empty
+        return self.queue.pop(0)  # Remove and return the front item of the queue
+    
+    def isEmpty(self):
+        return len(self.queue) == 0  # Check if the queue is empty
+    
+    def size(self):
+        return len(self.queue)  # Return the number of items in the queue
 
-# The game consists of three rods and a number of disks of different sizes which can slide onto any rod.
-# The game starts with the disks in a neat stack in ascending order of size on one rod, the smallest at the top.
-# The objective of the game is to move the entire stack to another rod, obeying the following simple rules:
-# i) Only one disk can be moved at a time.
-# ii) Each move consists of taking the upper disk from one of the stacks and placing it on top of another stack
-#     i.e. a disk can only be moved if it is the uppermost disk on a stack.
-# iii) No disk may be placed on top of a smaller disk.
+class StackTower:
+    def __init__(self, n):
+        self.n = n  # Number of disks
+        self.rod1 = Stack("Rod 1")  # Initialize the first rod as a stack
+        self.rod2 = Stack("Rod 2")  # Initialize the second rod as a stack
+        self.rod3 = Stack("Rod 3")  # Initialize the third rod as a stack
+        
+        # Push disks onto the first rod in descending order
+        for i in range(n, 0, -1):
+            self.rod1.push(i)
+    
+    def moveDisk(self, n, source, destination, auxiliary):
+        if n == 1:
+            disk = source.pop()  # Move the disk from source to destination
+            destination.push(disk)
+            print(f"Move disk {disk} from {source.name} to {destination.name}")
+        else:
+            # Move n-1 disks from source to auxiliary, so they are out of the way
+            self.moveDisk(n-1, source, auxiliary, destination)
+            disk = source.pop()  # Move the nth disk from source to destination
+            destination.push(disk)
+            print(f"Move disk {disk} from {source.name} to {destination.name}")
+            # Move the n-1 disks from auxiliary to destination
+            self.moveDisk(n-1, auxiliary, destination, source)
+    
+    def solve(self):
+        self.moveDisk(self.n, self.rod1, self.rod3, self.rod2)  # Solve the Tower of Hanoi problem
+        
+    def printRods(self):
+        # Print the contents of all three rods
+        print(f"{self.rod1.name}: {self.rod1.stack}")
+        print(f"{self.rod2.name}: {self.rod2.stack}")
+        print(f"{self.rod3.name}: {self.rod3.stack}")
 
-# The game can be played with any number of disks, although many toy versions have around 7 to 9 of them.
-# The minimum number of moves required to solve a Tower of Hanoi puzzle is 2^n - 1, where n is the number of disks.
+# Create a StackTower object with 3 disks
+tower = StackTower(3)
+tower.printRods()  # Print the initial state of the rods
+tower.solve()  # Solve the Tower of Hanoi problem
+tower.printRods()  # Print the final state of the rods
 
-# The recursive solution is as follows:
-# i) Move n-1 disks from the source rod to the auxiliary rod.
-# ii) Move the nth disk from the source rod to the destination rod.
-# iii) Move the n-1 disks from the auxiliary rod to the destination rod.
-# The iterative solution is as follows:
-# i) If n is even, interchange destination rod and auxiliary rod.
-# ii) for i = 1 to number of moves:
-#     a) if i%3 == 1, then make legal move between source and destination rods.
-#     b) if i%3 == 2, then make legal move between source and auxiliary rods.
-#     c) if i%3 == 0, then make legal move between auxiliary and destination rods.
 
-# Implement the game using the recursive solution.
-def tower_of_hanoi_recursive(n, source, destination, auxiliary):
-    if n == 1:
-        print(f"Move disk 1 from {source} to {destination}")
-        return
-    tower_of_hanoi_recursive(n-1, source, auxiliary, destination)
-    print(f"Move disk {n} from {source} to {destination}")
-    tower_of_hanoi_recursive(n-1, auxiliary, destination, source)
+print("-------------------------------------------------")
+print("Simulating customers at a grocery store check-out")
+# Simulation of customers at a grocery store check-out using a queue
+import random
+
+class GroceryStore:
+    def __init__(self):
+        self.checkout = Queue()  # Initialize a queue to represent the checkout line
+        self.customers = 0  # Initialize the number of customers
+    
+    def addCustomer(self):
+        self.customers += 1  # Increment the number of customers
+        self.checkout.enqueue(self.customers)  # Add the customer to the checkout line
+    
+    def processCustomer(self):
+        if self.checkout.isEmpty():
+            print("Checkout line is empty")  # Print a message if the checkout line is empty
+        else:
+            customer = self.checkout.dequeue()  # Remove the first customer from the checkout line
+            print(f"Processing customer {customer}")  # Print a message to process the customer
+
+# Create a GroceryStore object
+store = GroceryStore()
+
+# Simulate customers arriving at the grocery store
+for i in range(5):
+    store.addCustomer()
+    
+# Process customers at the checkout
+for i in range(5):
+    store.processCustomer()
