@@ -24,3 +24,19 @@ class TreeNode:
 # This code snippet provides a basic representation of a tree in code.
 # Trees are used in various applications such as file systems, organization charts, and decision trees.
 
+def treeSearch(x, k):
+    if x == None or x.value == k:
+        return x
+    for c in x.children:
+        result = treeSearch(c, k)
+        if result != None:
+            return result
+    return None
+
+# The treeSearch function takes a TreeNode x and a value k as input and returns the node with the value k in the tree rooted at x.
+# If the value k is not found in the tree, the function returns None.
+# The function uses a recursive approach to search for the value k in the tree.
+# It first checks if the current node x is None or if its value is equal to k.
+# If either of these conditions is true, the function returns the current node x.
+# Otherwise, it recursively searches for the value k in the children of the current node x.
+
